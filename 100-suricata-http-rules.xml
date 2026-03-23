@@ -1,0 +1,33 @@
+<group name="suricata,http,">
+
+  <!-- Capture les requêtes HTTP détectées par Suricata -->
+  <rule id="100210" level="3">
+    <decoded_as>suricata</decoded_as>
+    <field name="event_type">^http$</field>
+    <field name="http.hostname">\.+</field>
+    <description>Suricata: HTTP request to $(http.hostname)$(http.url)</description>
+    <options>no_full_log</options>
+    <group>suricata,http,url,</group>
+  </rule>
+
+  <!-- Capture les connexions TLS/HTTPS (SNI) détectées par Suricata -->
+  <rule id="100212" level="3">
+    <decoded_as>suricata</decoded_as>
+    <field name="event_type">^tls$</field>
+    <field name="tls.sni">\.+</field>
+    <description>Suricata: TLS connection to $(tls.sni)</description>
+    <options>no_full_log</options>
+    <group>suricata,tls,url,</group>
+  </rule>
+
+  <!-- Alerte level 12 quand VirusTotal confirme URL malveillante -->
+  <rule id="100211" level="12">
+    <if_sid>87100</if_sid>
+    <field name="virustotal.positives">\d+</field>
+    <field name="virustotal.url">\.+</field>
+    <description>VirusTotal: Malicious URL detected - $(virustotal.url) - $(virustotal.positives) engines</description>
+    <options>no_full_log</options>
+    <group>virustotal,malicious_url,</group>
+  </rule>
+
+</group>

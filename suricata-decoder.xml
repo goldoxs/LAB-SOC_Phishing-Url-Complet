@@ -1,0 +1,9 @@
+<!-- Custom decoder for Suricata EVE JSON via syslog -->
+<decoder name="suricata">
+  <program_name>suricata</program_name>
+</decoder>
+
+<decoder name="suricata-json">
+  <parent>suricata</parent>
+  <plugin_decoder>JSON_Decoder</plugin_decoder>
+</decoder>
